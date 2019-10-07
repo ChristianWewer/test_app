@@ -12,7 +12,7 @@ public class Main {
 
         //ChessConsoleApp app = new ChessConsoleApp();
         //app.startChessGame(8);
-
+        //Test comment
         ChessAppGui guiapp = new ChessAppGui();
         guiapp.initiateGui();
 
