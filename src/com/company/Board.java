@@ -28,8 +28,6 @@ public class Board {
     }
 
     public void MarkLegalNextMove(Cell currentCell, String chessPiece) {
-        System.out.println(currentCell.columnNumber);
-        System.out.print(currentCell.rowNumber);
         // instantiate the board: I.e. set CurrentlyOccupied and LegalNextMove = False.
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -37,9 +35,6 @@ public class Board {
                 theGrid[i][j].LegalNextMove = false;
             }
         }
-        System.out.println(currentCell.columnNumber);
-        System.out.println(currentCell.rowNumber);
-        System.out.println(size);
         // Find all legal moves:
 
         switch (chessPiece) {
