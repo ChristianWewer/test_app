@@ -35,7 +35,6 @@ public class Board {
                 theGrid[i][j].LegalNextMove = false;
             }
         }
-        // Find all legal moves:
 
         switch (chessPiece) {
             case "Knight":
