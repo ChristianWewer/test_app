@@ -27,6 +27,42 @@ public class Board {
         return isOnBoard;
     }
 
+    // Movement functions:
+    public void diagonalMovement(Cell currentCell){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == j){
+                    if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber + j) // ignore out of bounds
+                            && theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
+                        theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j].LegalNextMove = true;
+                    }
+                    if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber - j) // ignore out of bounds
+                            && theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
+                        theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j].LegalNextMove = true;
+                    }
+                    if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber + j) // ignore out of bounds
+                            && theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
+                        theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j].LegalNextMove = true;
+                    }
+                    if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber - j) // ignore out of bounds
+                            && theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
+                        theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j].LegalNextMove = true;
+                    }
+                }
+            }
+        }
+    }
+    public void linearMovement(Cell currentCell){
+        for (int i = 0; i < size; i++) {
+            if (theGrid[i][currentCell.rowNumber] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
+                theGrid[i][currentCell.rowNumber].LegalNextMove = true;
+            }
+            if (theGrid[currentCell.columnNumber][i] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
+                theGrid[currentCell.columnNumber][i].LegalNextMove = true;
+            }
+        }
+    }
+
     public void MarkLegalNextMove(Cell currentCell, String chessPiece) {
         // instantiate the board: I.e. set CurrentlyOccupied and LegalNextMove = False.
         for (int i = 0; i < size; i++) {
@@ -35,6 +71,9 @@ public class Board {
                 theGrid[i][j].LegalNextMove = false;
             }
         }
+
+
+        System.out.println();
 
         switch (chessPiece) {
             case "Knight":
@@ -73,37 +112,9 @@ public class Board {
                 break;
             case "Queen":
                 // Linear movement.
-                for (int i = 0; i < size; i++) {
-                    if (theGrid[i][currentCell.rowNumber] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
-                        theGrid[i][currentCell.rowNumber].LegalNextMove = true;
-                    }
-                    if (theGrid[currentCell.columnNumber][i] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
-                        theGrid[currentCell.columnNumber][i].LegalNextMove = true;
-                    }
-                }
+                linearMovement(currentCell);
                 //Diagonal movement:
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        if (i == j){
-                            if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber + j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber - j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber + j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber - j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j].LegalNextMove = true;
-                            }
-                        }
-                    }
-                }
+                diagonalMovement(currentCell);
                 break;
             case "King":
                 if (isCellOnBoard(currentCell.columnNumber + 1, currentCell.rowNumber)) {
@@ -140,38 +151,10 @@ public class Board {
                 }
                 break;
             case "Rook":
-                for (int i = 0; i < size; i++) {
-                    if (theGrid[i][currentCell.rowNumber] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
-                        theGrid[i][currentCell.rowNumber].LegalNextMove = true;
-                    }
-                    if (theGrid[currentCell.columnNumber][i] != theGrid[currentCell.columnNumber][currentCell.rowNumber]) {
-                        theGrid[currentCell.columnNumber][i].LegalNextMove = true;
-                    }
-                }
+                linearMovement(currentCell);
                 break;
             case "Bishop":
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        if (i == j){
-                            if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber + j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber + i][currentCell.rowNumber + j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber - j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber - i][currentCell.rowNumber - j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber - i, currentCell.rowNumber + j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber - i][currentCell.rowNumber + j].LegalNextMove = true;
-                            }
-                            if ((isCellOnBoard(currentCell.columnNumber + i, currentCell.rowNumber - j) // ignore out of bounds
-                                    && theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j] != theGrid[currentCell.columnNumber][currentCell.rowNumber])) {
-                                theGrid[currentCell.columnNumber + i][currentCell.rowNumber - j].LegalNextMove = true;
-                            }
-                        }
-                    }
-                }
+                diagonalMovement(currentCell);
                 break;
         }
 
